@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const port = 8000;
+const cookieParser = require('cookie-parser');
 
 // setup layouts 
 const expressLayouts = require('express-ejs-layouts');
@@ -9,6 +10,8 @@ app.use(expressLayouts)
 // mongoose setup
 const db = require('./config/mongoose');
 
+app.use(express.urlencoded());
+
 // setup the static files
 app.use(express.static('./assets'))
 
@@ -16,6 +19,8 @@ app.use(express.static('./assets'))
 app.set('layout extractStyles', true);
 app.set('layout extractScripts', true);
 
+// to setup the cookie parser
+app.use(cookieParser());
 
 // use express router
 app.use('/', require('./routes/index'))
