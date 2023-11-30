@@ -8,6 +8,9 @@ module.exports.profile = function(req, res){
 
 // rendering sign-up ejs file
 module.exports.signUp = function(req, res){
+    if(req.isAuthenticated()){
+        return res.redirect('/users/profile')
+    }
     return res.render('user_sign_up', {
         title: 'Sign Up',
     })
@@ -15,6 +18,9 @@ module.exports.signUp = function(req, res){
 
 // rendering the sign-in ejs file
 module.exports.signIn = function(req, res){
+    if(req.isAuthenticated()){
+        return res.redirect('/users/profile')
+    }
     return res.render('user_sign_in', {
         title: 'Sign In',
     })
@@ -43,4 +49,22 @@ module.exports.create = function(req, res){
             return res.redirect('/users/signup')
         }
     })
+}
+
+// sign in and create a session for the user
+module.exports.createSession = function(req, res){
+    return res.redirect('/');
+}
+
+
+// sign out controller
+module.exports.destroySession = function(req, res){
+
+    req.logout(function(err){
+        if (err){
+            return console.log('err', err);
+        }
+    });
+
+    return res.redirect('/');
 }
